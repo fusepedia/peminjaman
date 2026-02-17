@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Peminjaman Peralatan & Bahan - BPVP Sorong</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+    <div class="loader-container">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-icon"><i class="fas fa-tools"></i></div>
+        <p class="loader-text">Memuat Sistem...</p>
+    </div>
+</div>
+
+<!-- PARTICLES BACKGROUND -->
+<div id="particles-container"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <div class="nav-brand" onclick="navigateTo('beranda')">
+            <div class="brand-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">BPVP SORONG</span>
+                <span class="brand-subtitle">Workshop Elektronika</span>
+            </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="#beranda" class="nav-link active" data-section="beranda">
+                <i class="fas fa-home"></i><span>Beranda</span>
+            </a>
+            <a href="#peminjaman" class="nav-link" data-section="peminjaman">
+                <i class="fas fa-clipboard-list"></i><span>Peminjaman</span>
+            </a>
+            <a href="#tentang" class="nav-link" data-section="tentang">
+                <i class="fas fa-info-circle"></i><span>Tentang</span>
+            </a>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ==================== -->
+<!-- SECTION: BERANDA -->
+<!-- ==================== -->
+<section id="beranda" class="section active">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-badge animate-fade-in">
+                <i class="fas fa-award"></i> Sistem Digital Tahun 2026
+            </div>
+            <h1 class="hero-title animate-slide-up">
+                Digitalisasi Sistem<br>
+                <span class="gradient-text">Peminjaman Peralatan</span><br>
+                & Penggunaan Bahan
+            </h1>
+            <p class="hero-description animate-slide-up delay-1">
+                Sistem berbasis web untuk pencatatan peminjaman peralatan dan penggunaan bahan pelatihan
+                pada Workshop Elektronika di Balai Pelatihan Vokasi dan Produktivitas (BPVP) Sorong.
+            </p>
+            <div class="hero-buttons animate-slide-up delay-2">
+                <button class="btn btn-primary btn-glow" onclick="navigateTo('peminjaman')">
+                    <i class="fas fa-plus-circle"></i> Buat Peminjaman Baru
+                </button>
+                <button class="btn btn-secondary" onclick="navigateTo('tentang')">
+                    <i class="fas fa-info-circle"></i> Tentang Sistem
+                </button>
+            </div>
+            <div class="hero-stats animate-fade-in delay-3">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-tools"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="totalAlat">0</span>
+                        <span class="stat-label">Total Peralatan</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-cyan"><i class="fas fa-boxes"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number" id="totalBahan">0</span>
+                        <span class="stat-label">Total Bahan</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Program Pelatihan</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-amber"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-number">260</span>
+                        <span class="stat-label">JP / Pelatihan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual animate-float">
+            <div class="hero-illustration">
+                <div class="circuit-board">
+                    <div class="chip main-chip">
+                        <i class="fas fa-microchip"></i>
+                        <span>BPVP</span>
+                    </div>
+                    <div class="circuit-line line-1"></div>
+                    <div class="circuit-line line-2"></div>
+                    <div class="circuit-line line-3"></div>
+                    <div class="circuit-line line-4"></div>
+                    <div class="circuit-dot dot-1"></div>
+                    <div class="circuit-dot dot-2"></div>
+                    <div class="circuit-dot dot-3"></div>
+                    <div class="circuit-dot dot-4"></div>
+                    <div class="chip chip-1"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="chip chip-2"><i class="fas fa-network-wired"></i></div>
+                    <div class="chip chip-3"><i class="fas fa-cog"></i></div>
+                    <div class="chip chip-4"><i class="fas fa-database"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== -->
+<!-- SECTION: PEMINJAMAN -->
+<!-- ==================== -->
+<section id="peminjaman" class="section">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fas fa-clipboard-list"></i> Form Peminjaman Peralatan & Bahan
+            </h2>
+            <p class="section-desc">
+                Isi formulir berikut untuk mencatat peminjaman peralatan dan penggunaan bahan pelatihan
+            </p>
+        </div>
+
+        <!-- STEP INDICATOR -->
+        <div class="step-indicator">
+            <div class="step active" data-step="1">
+                <div class="step-circle">1</div>
+                <span class="step-label">Data Peserta</span>
+            </div>
+            <div class="step-line" id="line-1-2"></div>
+            <div class="step" data-step="2">
+                <div class="step-circle">2</div>
+                <span class="step-label">Pilih Pelatihan</span>
+            </div>
+            <div class="step-line" id="line-2-3"></div>
+            <div class="step" data-step="3">
+                <div class="step-circle">3</div>
+                <span class="step-label">Alat & Bahan</span>
+            </div>
+            <div class="step-line" id="line-3-4"></div>
+            <div class="step" data-step="4">
+                <div class="step-circle">4</div>
+                <span class="step-label">Cetak</span>
+            </div>
+        </div>
+
+        <form id="formPeminjaman" class="form-container" onsubmit="return false;">
+
+            <!-- ============ STEP 1 ============ -->
+            <div class="form-step active" id="step1">
+                <div class="form-card">
+                    <div class="card-header">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Informasi Peserta Pelatihan</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-user"></i> Nama Lengkap Peserta <span class="required">*</span></label>
+                                <input type="text" id="namaPeserta" placeholder="Masukkan nama lengkap" required autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-id-card"></i> No. Peserta / NIK <span class="required">*</span></label>
+                                <input type="text" id="noPeserta" placeholder="Masukkan nomor peserta" required autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-alt"></i> Tanggal Peminjaman <span class="required">*</span></label>
+                                <input type="date" id="tanggalPinjam" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-clock"></i> Waktu Peminjaman</label>
+                                <input type="time" id="waktuPinjam">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-chalkboard-teacher"></i> Instruktur Pelatihan <span class="required">*</span></label>
+                            <div class="instructor-cards">
+                                <label class="instructor-card">
+                                    <input type="radio" name="instruktur" value="Edwar Luden, S.Pd., M.Pd." required>
+                                    <div class="instructor-info">
+                                        <div class="instructor-avatar">
+                                            <i class="fas fa-user-tie"></i>
+                                        </div>
+                                        <div class="instructor-detail">
+                                            <strong>Edwar Luden, S.Pd., M.Pd.</strong>
+                                            <span>Instruktur Workshop Elektronika</span>
+                                        </div>
+                                        <div class="check-mark"><i class="fas fa-check-circle"></i></div>
+                                    </div>
+                                </label>
+                                <label class="instructor-card">
+                                    <input type="radio" name="instruktur" value="Artur Sebastian Kamajaya, S.Pd.">
+                                    <div class="instructor-info">
+                                        <div class="instructor-avatar">
+                                            <i class="fas fa-user-tie"></i>
+                                        </div>
+                                        <div class="instructor-detail">
+                                            <strong>Artur Sebastian Kamajaya, S.Pd.</strong>
+                                            <span>Instruktur Workshop Elektronika</span>
+                                        </div>
+                                        <div class="check-mark"><i class="fas fa-check-circle"></i></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer right">
+                        <button type="button" class="btn btn-primary" onclick="goToStep(2)">
+                            Lanjut <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ STEP 2 ============ -->
+            <div class="form-step" id="step2">
+                <div class="form-card">
+                    <div class="card-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Pilih Jenis Pelatihan & Unit Kompetensi</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label><i class="fas fa-list-alt"></i> Jenis Pelatihan <span class="required">*</span></label>
+                            <div class="training-cards">
+                                <label class="training-card">
+                                    <input type="radio" name="jenisPelatihan" value="Teknisi Telepon Seluler Perangkat Keras" required>
+                                    <div class="training-info">
+                                        <div class="training-icon">
+                                            <i class="fas fa-mobile-alt"></i>
+                                        </div>
+                                        <div class="training-detail">
+                                            <strong>Teknisi Telepon Seluler Perangkat Keras</strong>
+                                            <span>260 JP @ 45 menit &bull; 13 Unit Kompetensi</span>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="training-card">
+                                    <input type="radio" name="jenisPelatihan" value="Instalasi Fiber Optik">
+                                    <div class="training-info">
+                                        <div class="training-icon fiber">
+                                            <i class="fas fa-network-wired"></i>
+                                        </div>
+                                        <div class="training-detail">
+                                            <strong>Instalasi Fiber Optik</strong>
+                                            <span>260 JP @ 45 menit &bull; 7 Unit Kompetensi</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- UNIT KOMPETENSI SELULAR -->
+                        <div id="unitSelular" class="unit-container hidden-section">
+                            <label><i class="fas fa-book"></i> Pilih Unit Kompetensi <span class="required">*</span></label>
+                            <div class="unit-select-all">
+                                <label class="select-all-label">
+                                    <input type="checkbox" id="selectAllSelular" onchange="toggleSelectAll('selular')">
+                                    <span>Pilih Semua</span>
+                                </label>
+                            </div>
+                            <div class="unit-list" id="unitSelularList"></div>
+                        </div>
+
+                        <!-- UNIT KOMPETENSI FIBER OPTIK -->
+                        <div id="unitFiber" class="unit-container hidden-section">
+                            <label><i class="fas fa-book"></i> Pilih Unit Kompetensi <span class="required">*</span></label>
+                            <div class="unit-select-all">
+                                <label class="select-all-label">
+                                    <input type="checkbox" id="selectAllFiber" onchange="toggleSelectAll('fiber')">
+                                    <span>Pilih Semua</span>
+                                </label>
+                            </div>
+                            <div class="unit-list" id="unitFiberList"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer between">
+                        <button type="button" class="btn btn-outline" onclick="goToStep(1)">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="goToStep(3)">
+                            Lanjut <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ STEP 3 ============ -->
+            <div class="form-step" id="step3">
+                <div class="form-card">
+                    <div class="card-header">
+                        <i class="fas fa-tools"></i>
+                        <h3>Pilih Peralatan & Bahan yang Digunakan</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- TAB NAVIGATION -->
+                        <div class="tab-nav">
+                            <button type="button" class="tab-btn active" data-tab="peralatan" onclick="switchTab('peralatan')">
+                                <i class="fas fa-wrench"></i> Peralatan
+                            </button>
+                            <button type="button" class="tab-btn" data-tab="bahan" onclick="switchTab('bahan')">
+                                <i class="fas fa-box"></i> Bahan
+                            </button>
+                            <button type="button" class="tab-btn" data-tab="custom" onclick="switchTab('custom')">
+                                <i class="fas fa-plus"></i> Tambah Custom
+                            </button>
+                        </div>
+
+                        <!-- TAB: PERALATAN -->
+                        <div class="tab-content active" id="tab-peralatan">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchAlat" placeholder="Cari peralatan..." oninput="filterItems('alat')">
+                            </div>
+                            <div class="select-all-bar">
+                                <label class="select-all-label">
+                                    <input type="checkbox" id="selectAllAlat" onchange="toggleSelectAllItems('alat')">
+                                    <span>Pilih Semua Peralatan</span>
+                                </label>
+                            </div>
+                            <div class="items-grid" id="alatGrid"></div>
+                        </div>
+
+                        <!-- TAB: BAHAN -->
+                        <div class="tab-content" id="tab-bahan">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchBahan" placeholder="Cari bahan..." oninput="filterItems('bahan')">
+                            </div>
+                            <div class="select-all-bar">
+                                <label class="select-all-label">
+                                    <input type="checkbox" id="selectAllBahan" onchange="toggleSelectAllItems('bahan')">
+                                    <span>Pilih Semua Bahan</span>
+                                </label>
+                            </div>
+                            <div class="items-grid" id="bahanGrid"></div>
+                        </div>
+
+                        <!-- TAB: CUSTOM -->
+                        <div class="tab-content" id="tab-custom">
+                            <div class="custom-input-section">
+                                <h4><i class="fas fa-edit"></i> Tambahkan Alat/Bahan yang Tidak Ada di Daftar</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Nama Alat/Bahan</label>
+                                        <input type="text" id="customItemName" placeholder="Masukkan nama alat/bahan">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jenis</label>
+                                        <select id="customItemType">
+                                            <option value="Peralatan">Peralatan</option>
+                                            <option value="Bahan">Bahan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Jumlah</label>
+                                        <input type="number" id="customItemQty" min="1" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Keterangan</label>
+                                        <input type="text" id="customItemNote" placeholder="Opsional">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-success" onclick="addCustomItem()">
+                                    <i class="fas fa-plus-circle"></i> Tambahkan ke Daftar
+                                </button>
+                                <!-- Custom items list -->
+                                <div id="customItemsList" class="custom-items-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- SELECTED SUMMARY -->
+                        <div class="selected-summary" id="selectedSummary">
+                            <h4><i class="fas fa-check-double"></i> Item Terpilih (<span id="selectedCount">0</span>)</h4>
+                            <div class="selected-list" id="selectedList">
+                                <p class="empty-selected">Belum ada item yang dipilih</p>
+                            </div>
+                        </div>
+
+                        <!-- CATATAN -->
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label><i class="fas fa-sticky-note"></i> Catatan Tambahan</label>
+                            <textarea id="catatanTambahan" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer between">
+                        <button type="button" class="btn btn-outline" onclick="goToStep(2)">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="goToStep(4)">
+                            Preview & Cetak <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ STEP 4: PREVIEW & CETAK ============ -->
+            <div class="form-step" id="step4">
+                <div class="form-card">
+                    <div class="card-header">
+                        <i class="fas fa-print"></i>
+                        <h3>Preview Dokumen & Cetak</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="print-action-bar">
+                            <button type="button" class="btn btn-success btn-lg" onclick="cetakDokumen()">
+                                <i class="fas fa-print"></i> Cetak / Simpan PDF
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="resetFormFull()">
+                                <i class="fas fa-redo"></i> Buat Peminjaman Baru
+                            </button>
+                        </div>
+                        <div class="preview-wrapper">
+                            <div class="preview-document" id="previewDocument">
+                                <!-- Di-generate oleh JavaScript -->
+                            </div>
+                        </div>
+                        <div class="print-action-bar bottom">
+                            <button type="button" class="btn btn-success btn-lg" onclick="cetakDokumen()">
+                                <i class="fas fa-print"></i> Cetak / Simpan PDF
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-footer between">
+                        <button type="button" class="btn btn-outline" onclick="goToStep(3)">
+                            <i class="fas fa-arrow-left"></i> Kembali
+                        </button>
+                        <button type="button" class="btn btn-success btn-glow" onclick="cetakDokumen()">
+                            <i class="fas fa-print"></i> Cetak Dokumen
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<!-- ==================== -->
+<!-- SECTION: TENTANG -->
+<!-- ==================== -->
+<section id="tentang" class="section">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> Tentang Sistem</h2>
+            <p class="section-desc">Informasi mengenai sistem digitalisasi peminjaman peralatan dan bahan pelatihan</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-card main-about">
+                <div class="about-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3>Digitalisasi Sistem Peminjaman Peralatan dan Penggunaan Bahan Pelatihan Berbasis Web</h3>
+                <p>Sistem ini dikembangkan untuk mendigitalisasi proses peminjaman peralatan dan pencatatan penggunaan bahan pelatihan pada Workshop Elektronika di Balai Pelatihan Vokasi dan Produktivitas (BPVP) Sorong tahun 2026.</p>
+                <div class="about-details">
+                    <div class="detail-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>Tahun Implementasi: <strong>2026</strong></span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Lokasi: <strong>BPVP Sorong, Papua Barat Daya</strong></span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-building"></i>
+                        <span>Unit: <strong>Workshop Elektronika</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon bg-green"><i class="fas fa-user-cog"></i></div>
+                <h3>Pengembang</h3>
+                <p><strong>Artur Sebastian Kamajaya, S.Pd.</strong></p>
+                <p>Instruktur Workshop Elektronika<br>BPVP Sorong</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Pelatihan 1</h3>
+                <p><strong>Teknisi Telepon Seluler Perangkat Keras</strong></p>
+                <p>260 JP @ 45 menit<br>13 Unit Kompetensi</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon bg-cyan"><i class="fas fa-network-wired"></i></div>
+                <h3>Pelatihan 2</h3>
+                <p><strong>Instalasi Fiber Optik</strong></p>
+                <p>260 JP @ 45 menit<br>7 Unit Kompetensi</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon bg-amber"><i class="fas fa-chalkboard-teacher"></i></div>
+                <h3>Tim Instruktur</h3>
+                <ul class="about-list">
+                    <li><i class="fas fa-user-tie"></i> Edwar Luden, S.Pd., M.Pd.</li>
+                    <li><i class="fas fa-user-tie"></i> Artur Sebastian Kamajaya, S.Pd.</li>
+                </ul>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon bg-rose"><i class="fas fa-cogs"></i></div>
+                <h3>Fitur Sistem</h3>
+                <ul class="about-list features">
+                    <li><i class="fas fa-check"></i> Multi-pelatihan & kurikulum</li>
+                    <li><i class="fas fa-check"></i> Input alat & bahan custom</li>
+                    <li><i class="fas fa-check"></i> Cetak dokumen / PDF</li>
+                    <li><i class="fas fa-check"></i> Area tanda tangan basah</li>
+                    <li><i class="fas fa-check"></i> Responsive (HP/Tablet/PC)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2026 BPVP Sorong &mdash; Workshop Elektronika</p>
+        <p>Dikembangkan oleh <strong>Artur Sebastian Kamajaya, S.Pd.</strong></p>
+    </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
