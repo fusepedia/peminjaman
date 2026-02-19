@@ -88,7 +88,7 @@ var customItems = [];
 // LOGO KEMNAKER BASE64
 // ================================================================
 var LOGO_KEMNAKER = 'data:image/svg+xml;base64,' + btoa(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">' +
+    '<svg xmlns="https://upload.wikimedia.org/wikipedia/commons/5/54/Logo_of_the_Ministry_of_Manpower_of_the_Republic_of_Indonesia.svg" viewBox="0 0 200 200">' +
     '<circle cx="100" cy="100" r="95" fill="none" stroke="#1a237e" stroke-width="4"/>' +
     '<circle cx="100" cy="100" r="85" fill="none" stroke="#ffc107" stroke-width="3"/>' +
     '<polygon points="100,25 112,65 155,65 120,90 132,130 100,105 68,130 80,90 45,65 88,65" fill="#1a237e"/>' +
