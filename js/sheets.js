@@ -3,7 +3,7 @@
 // ============================================================
 
 // *** IMPORTANT: Replace this URL with your deployed Google Apps Script Web App URL ***
-const SHEETS_API_URL = "";
+const SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbzGBVZzz9LJXbF3jz8xw5oqOqMQ3XsDb7hIfpEFyuxfU04Td48YuajjIWGQD-hiH8Qw/exec";
 
 // Local storage keys
 const LS_PEMINJAMAN = "bpvp_peminjaman";
