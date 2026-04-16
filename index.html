@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Sistem Peminjaman Peralatan & Bahan - BPVP Sorong</title>
+  <meta name="description" content="Sistem pencatatan digital peminjaman peralatan dan penggunaan bahan pelatihan Workshop Elektronika BPVP Sorong. Program Instalasi Fiber Optik & Teknisi Telepon Seluler.">
+  <meta name="theme-color" content="#0a1628">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader-content">
+      <div class="loader-logo">⚡</div>
+      <div class="loader-bar-container">
+        <div class="loader-bar"></div>
+      </div>
+      <p class="loader-text">Memuat Sistem...</p>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Detail</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo">⚡</div>
+          <div class="sidebar-title">
+            <h1>BPVP Sorong</h1>
+            <span>Workshop Elektronika</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Menu Utama</div>
+        <button class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-page="peminjaman" onclick="navigateTo('peminjaman')">
+          <span class="nav-icon">📋</span>
+          <span>Form Peminjaman</span>
+        </button>
+        <button class="nav-item" data-page="ketersediaan" onclick="navigateTo('ketersediaan')">
+          <span class="nav-icon">📦</span>
+          <span>Ketersediaan</span>
+        </button>
+        <button class="nav-item" data-page="riwayat" onclick="navigateTo('riwayat')">
+          <span class="nav-icon">📜</span>
+          <span>Riwayat</span>
+          <span class="nav-badge" id="nav-badge-riwayat" style="display:none">0</span>
+        </button>
+
+        <div class="nav-section-title">Informasi</div>
+        <button class="nav-item" data-page="tentang" onclick="navigateTo('tentang')">
+          <span class="nav-icon">ℹ️</span>
+          <span>Tentang</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p>© 2026 BPVP Sorong<br>Workshop Elektronika</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h2 class="header-title" id="header-title">Dashboard</h2>
+        </div>
+        <div class="header-right">
+          <div class="sync-status" id="sync-status">
+            <span class="sync-dot" id="sync-dot"></span>
+            <span id="sync-text">Online</span>
+          </div>
+          <button class="btn-dark-mode" onclick="toggleTheme()" title="Toggle tema">🌙</button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content">
+
+        <!-- ===== DASHBOARD PAGE ===== -->
+        <section class="page-section active" id="page-dashboard">
+          <div class="section-header">
+            <h2>📊 Dashboard</h2>
+            <p>Ringkasan peminjaman peralatan dan penggunaan bahan pelatihan</p>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon">📋</div>
+                <span class="stat-card-change positive">—</span>
+              </div>
+              <div class="stat-card-value"><span class="counter" data-target="0" id="stat-total">0</span></div>
+              <div class="stat-card-label">Total Peminjaman</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon">🔧</div>
+                <span class="stat-card-change positive">—</span>
+              </div>
+              <div class="stat-card-value"><span class="counter" data-target="33" id="stat-peralatan">33</span></div>
+              <div class="stat-card-label">Jenis Peralatan</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon">🧪</div>
+                <span class="stat-card-change positive">—</span>
+              </div>
+              <div class="stat-card-value"><span class="counter" data-target="39" id="stat-bahan">39</span></div>
+              <div class="stat-card-label">Jenis Bahan</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <div class="stat-card-icon">👥</div>
+                <span class="stat-card-change positive">—</span>
+              </div>
+              <div class="stat-card-value"><span class="counter" data-target="0" id="stat-aktif">0</span></div>
+              <div class="stat-card-label">Peminjam Aktif</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <button class="btn btn-primary btn-lg" onclick="navigateTo('peminjaman')">
+              ➕ Peminjaman Baru
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="navigateTo('ketersediaan')">
+              📦 Cek Ketersediaan
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="navigateTo('riwayat')">
+              📜 Lihat Riwayat
+            </button>
+          </div>
+
+          <!-- Charts -->
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">📈 Statistik Peminjaman</h3>
+              </div>
+              <div class="card-body">
+                <div class="chart-container">
+                  <canvas id="chart-peminjaman"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">📊 Distribusi Program</h3>
+              </div>
+              <div class="card-body">
+                <div class="chart-container">
+                  <canvas id="chart-program"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="card mt-lg">
+            <div class="card-header">
+              <h3 class="card-title">🕐 Aktivitas Terbaru</h3>
+            </div>
+            <div class="card-body">
+              <ul class="activity-list" id="activity-list">
+                <li class="empty-state">
+                  <div class="empty-state-icon">📭</div>
+                  <h3>Belum Ada Aktivitas</h3>
+                  <p>Mulai dengan membuat peminjaman baru</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== PEMINJAMAN FORM PAGE ===== -->
+        <section class="page-section" id="page-peminjaman">
+          <div class="section-header no-print">
+            <h2>📋 Form Peminjaman</h2>
+            <p>Isi formulir untuk mencatat peminjaman peralatan dan penggunaan bahan</p>
+          </div>
+
+          <div class="card no-print">
+            <div class="card-body">
+              <div class="form-wizard" id="form-wizard">
+                <!-- Progress -->
+                <div class="wizard-progress">
+                  <div class="wizard-step-indicator">
+                    <div class="wizard-step-dot active" data-step="1">
+                      <div class="wizard-dot">1</div>
+                      <div class="wizard-step-label">Data Peserta</div>
+                    </div>
+                    <div class="wizard-line"></div>
+                    <div class="wizard-step-dot" data-step="2">
+                      <div class="wizard-dot">2</div>
+                      <div class="wizard-step-label">Program</div>
+                    </div>
+                    <div class="wizard-line"></div>
+                    <div class="wizard-step-dot" data-step="3">
+                      <div class="wizard-dot">3</div>
+                      <div class="wizard-step-label">Alat & Bahan</div>
+                    </div>
+                    <div class="wizard-line"></div>
+                    <div class="wizard-step-dot" data-step="4">
+                      <div class="wizard-dot">4</div>
+                      <div class="wizard-step-label">Preview</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 1: Data Peserta -->
+                <div class="wizard-page active" id="wizard-step-1">
+                  <h3 style="margin-bottom: var(--space-lg); font-size: 1.1rem;">👤 Data Peserta Pelatihan</h3>
+                  <div class="grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Nama Lengkap *</label>
+                      <input type="text" class="form-input" id="input-nama" placeholder="Masukkan nama lengkap" required>
+                      <div class="form-error">Nama wajib diisi</div>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">NIP / NIK</label>
+                      <input type="text" class="form-input" id="input-nip" placeholder="Nomor identitas">
+                    </div>
+                  </div>
+                  <div class="grid-2">
+                    <div class="form-group">
+                      <label class="form-label">Angkatan / Gelombang</label>
+                      <input type="text" class="form-input" id="input-angkatan" placeholder="Contoh: Angkatan 1">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Tanggal Peminjaman *</label>
+                      <input type="date" class="form-input" id="input-tanggal">
+                      <div class="form-error">Tanggal wajib diisi</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Keterangan / Catatan</label>
+                    <textarea class="form-textarea" id="input-keterangan" placeholder="Catatan tambahan (opsional)" rows="3"></textarea>
+                  </div>
+                </div>
+
+                <!-- Step 2: Program & Unit Kompetensi -->
+                <div class="wizard-page" id="wizard-step-2">
+                  <h3 style="margin-bottom: var(--space-lg); font-size: 1.1rem;">🎓 Pilih Program Pelatihan</h3>
+                  <div class="program-cards" id="program-cards">
+                    <div class="program-card fo" data-program="fiber_optik" onclick="selectProgram('fiber_optik')">
+                      <div class="program-card-icon">🔌</div>
+                      <h3>Instalasi Fiber Optik</h3>
+                      <p>Program pelatihan instalasi, penyambungan, dan evaluasi jaringan fiber optik</p>
+                      <div class="program-card-meta">
+                        <span>⏱️ 260 JP</span>
+                        <span>📚 7 Unit Kompetensi</span>
+                        <span>🔧 18 Peralatan</span>
+                        <span>🧪 12 Bahan</span>
+                      </div>
+                    </div>
+                    <div class="program-card ts" data-program="teknisi_selular" onclick="selectProgram('teknisi_selular')">
+                      <div class="program-card-icon">📱</div>
+                      <h3>Teknisi Telepon Seluler</h3>
+                      <p>Program pelatihan perbaikan dan servis telepon seluler / smartphone</p>
+                      <div class="program-card-meta">
+                        <span>⏱️ 260 JP</span>
+                        <span>📚 13 Unit Kompetensi</span>
+                        <span>🔧 15 Peralatan</span>
+                        <span>🧪 27 Bahan</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Unit Kompetensi -->
+                  <div id="unit-kompetensi-section" style="display:none; margin-top: var(--space-xl);">
+                    <h3 style="margin-bottom: var(--space-md); font-size: 1rem;">📚 Unit Kompetensi yang Dipelajari</h3>
+                    <p class="text-muted text-small mb-md">Pilih unit kompetensi yang relevan dengan peminjaman</p>
+                    <div id="unit-kompetensi-list"></div>
+                  </div>
+                </div>
+
+                <!-- Step 3: Peralatan & Bahan -->
+                <div class="wizard-page" id="wizard-step-3">
+                  <h3 style="margin-bottom: var(--space-md); font-size: 1.1rem;">🔧 Pilih Peralatan & Bahan</h3>
+
+                  <!-- Tabs for Peralatan / Bahan -->
+                  <div class="tabs" id="item-tabs">
+                    <button class="tab-btn active" onclick="switchItemTab('peralatan')">🔧 Peralatan</button>
+                    <button class="tab-btn" onclick="switchItemTab('bahan')">🧪 Bahan</button>
+                    <button class="tab-btn" onclick="switchItemTab('selected')">✅ Dipilih (<span id="selected-count">0</span>)</button>
+                  </div>
+
+                  <!-- Search & Filter -->
+                  <div class="filter-bar">
+                    <div class="search-box">
+                      <span class="search-icon">🔍</span>
+                      <input type="text" id="item-search" placeholder="Cari peralatan atau bahan..." oninput="filterItems()">
+                    </div>
+                  </div>
+
+                  <!-- Category Tabs -->
+                  <div class="category-tabs" id="category-tabs"></div>
+
+                  <!-- Item Grid -->
+                  <div class="item-grid" id="item-grid"></div>
+
+                  <!-- Selected Items Summary -->
+                  <div id="selected-items-panel" style="display:none; margin-top: var(--space-xl);">
+                    <h4 style="margin-bottom: var(--space-md);">✅ Item Terpilih</h4>
+                    <ul class="selected-items-list" id="selected-items-list"></ul>
+                  </div>
+
+                  <!-- Custom Item -->
+                  <div class="add-custom-item">
+                    <h4>➕ Tambah Item Custom</h4>
+                    <div class="custom-item-row">
+                      <div class="form-group" style="margin:0">
+                        <input type="text" class="form-input" id="custom-item-name" placeholder="Nama item">
+                      </div>
+                      <div class="form-group" style="margin:0">
+                        <input type="text" class="form-input" id="custom-item-spec" placeholder="Spesifikasi">
+                      </div>
+                      <div class="form-group" style="margin:0">
+                        <input type="number" class="form-input" id="custom-item-qty" placeholder="Qty" min="1" value="1">
+                      </div>
+                      <button class="btn btn-primary" onclick="addCustomItem()">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Step 4: Preview & Print -->
+                <div class="wizard-page" id="wizard-step-4">
+                  <h3 class="no-print" style="margin-bottom: var(--space-lg); font-size: 1.1rem;">📄 Preview & Cetak</h3>
+                  <div class="no-print" style="margin-bottom: var(--space-lg); display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                    <button class="btn btn-primary btn-lg" onclick="printBukti()">🖨️ Cetak Bukti Peminjaman</button>
+                    <button class="btn btn-success btn-lg" onclick="submitPeminjaman()">💾 Simpan ke Google Sheets</button>
+                  </div>
+                  <div id="preview-output"></div>
+                </div>
+
+                <!-- Wizard Actions -->
+                <div class="wizard-actions">
+                  <button class="btn btn-secondary" id="btn-prev" onclick="wizardPrev()" style="display:none">
+                    ← Sebelumnya
+                  </button>
+                  <div></div>
+                  <button class="btn btn-primary" id="btn-next" onclick="wizardNext()">
+                    Selanjutnya →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== KETERSEDIAAN PAGE ===== -->
+        <section class="page-section" id="page-ketersediaan">
+          <div class="section-header">
+            <h2>📦 Ketersediaan Alat & Bahan</h2>
+            <p>Data real-time ketersediaan peralatan dan bahan pelatihan</p>
+          </div>
+
+          <!-- Program Tabs -->
+          <div class="tabs" id="avail-program-tabs">
+            <button class="tab-btn active" onclick="switchAvailProgram('fiber_optik')">🔌 Fiber Optik</button>
+            <button class="tab-btn" onclick="switchAvailProgram('teknisi_selular')">📱 Teknisi Selular</button>
+          </div>
+
+          <!-- Sub-tabs -->
+          <div class="tabs" id="avail-type-tabs">
+            <button class="tab-btn active" onclick="switchAvailType('peralatan')">🔧 Peralatan</button>
+            <button class="tab-btn" onclick="switchAvailType('bahan')">🧪 Bahan</button>
+          </div>
+
+          <!-- Search -->
+          <div class="filter-bar">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="avail-search" placeholder="Cari alat atau bahan..." oninput="filterAvailability()">
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="refreshAvailability()">🔄 Refresh</button>
+          </div>
+
+          <!-- Availability Table -->
+          <div class="card">
+            <div class="card-body">
+              <div class="table-container">
+                <table class="data-table" id="avail-table">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nama</th>
+                      <th>Spesifikasi</th>
+                      <th>Stok Total</th>
+                      <th>Dipinjam</th>
+                      <th>Tersedia</th>
+                      <th>Status</th>
+                      <th>Level</th>
+                    </tr>
+                  </thead>
+                  <tbody id="avail-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== RIWAYAT PAGE ===== -->
+        <section class="page-section" id="page-riwayat">
+          <div class="section-header">
+            <h2>📜 Riwayat Peminjaman</h2>
+            <p>Catatan lengkap peminjaman peralatan dan penggunaan bahan</p>
+          </div>
+
+          <div class="filter-bar">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="history-search" placeholder="Cari nama peminjam..." oninput="filterHistory()">
+            </div>
+            <select class="form-select" id="history-filter-program" onchange="filterHistory()" style="width:auto;min-width:160px;">
+              <option value="">Semua Program</option>
+              <option value="fiber_optik">Fiber Optik</option>
+              <option value="teknisi_selular">Teknisi Selular</option>
+            </select>
+            <select class="form-select" id="history-filter-status" onchange="filterHistory()" style="width:auto;min-width:140px;">
+              <option value="">Semua Status</option>
+              <option value="dipinjam">Dipinjam</option>
+              <option value="dikembalikan">Dikembalikan</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="exportHistory()">📥 Export CSV</button>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <div class="table-container">
+                <table class="data-table" id="history-table">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Tanggal</th>
+                      <th>Nama</th>
+                      <th>Program</th>
+                      <th>Item</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-table-body">
+                    <tr>
+                      <td colspan="7">
+                        <div class="empty-state">
+                          <div class="empty-state-icon">📭</div>
+                          <h3>Belum Ada Riwayat</h3>
+                          <p>Data peminjaman akan muncul di sini</p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== TENTANG PAGE ===== -->
+        <section class="page-section" id="page-tentang">
+          <div class="about-hero">
+            <h2>Sistem Peminjaman Peralatan & Bahan Pelatihan</h2>
+            <p>Digitalisasi pencatatan peminjaman peralatan dan penggunaan bahan pelatihan berbasis web pada Workshop Elektronika BPVP Sorong</p>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-card">
+              <div class="about-card-icon">🏛️</div>
+              <h3>BPVP Sorong</h3>
+              <p>Balai Pelatihan Vokasi dan Produktivitas Sorong — Kementerian Ketenagakerjaan RI. Workshop Elektronika menyelenggarakan pelatihan berbasis kompetensi sesuai kurikulum Proglat Kemnaker.</p>
+            </div>
+
+            <div class="about-card">
+              <div class="about-card-icon">🎯</div>
+              <h3>Tujuan Sistem</h3>
+              <ul>
+                <li>Menggantikan pencatatan manual menjadi digital</li>
+                <li>Meningkatkan efisiensi proses peminjaman</li>
+                <li>Memantau ketersediaan alat & bahan secara real-time</li>
+                <li>Dokumentasi yang akurat dan terpusat</li>
+                <li>Mendukung akuntabilitas penggunaan aset</li>
+              </ul>
+            </div>
+
+            <div class="about-card">
+              <div class="about-card-icon">🔌</div>
+              <h3>Instalasi Fiber Optik</h3>
+              <ul>
+                <li>260 JP @ 45 menit</li>
+                <li>7 Unit Kompetensi</li>
+                <li>18 Jenis Peralatan</li>
+                <li>12 Jenis Bahan</li>
+              </ul>
+              <p class="mt-sm"><a href="https://proglat.kemnaker.go.id/programs/2ad91f2e-20df-4f95-a2c3-bfc50a706448/versions/3" target="_blank" rel="noopener">Lihat di Proglat →</a></p>
+            </div>
+
+            <div class="about-card">
+              <div class="about-card-icon">📱</div>
+              <h3>Teknisi Telepon Seluler</h3>
+              <ul>
+                <li>260 JP @ 45 menit</li>
+                <li>13 Unit Kompetensi</li>
+                <li>15 Jenis Peralatan</li>
+                <li>27 Jenis Bahan</li>
+              </ul>
+              <p class="mt-sm"><a href="https://proglat.kemnaker.go.id/programs/de2e2789-6e7b-4b1f-84b0-05f248d0c703/versions/2" target="_blank" rel="noopener">Lihat di Proglat →</a></p>
+            </div>
+
+            <div class="about-card">
+              <div class="about-card-icon">⚙️</div>
+              <h3>Fitur Sistem</h3>
+              <ul>
+                <li>Multi-program pelatihan (FO & TS)</li>
+                <li>Form peminjaman multi-step interaktif</li>
+                <li>Integrasi Google Sheets real-time</li>
+                <li>Cetak bukti peminjaman (PDF)</li>
+                <li>Tambah item custom</li>
+                <li>Responsive (Mobile, Tablet, Desktop)</li>
+                <li>Riwayat & statistik lengkap</li>
+              </ul>
+            </div>
+
+            <div class="about-card">
+              <div class="about-card-icon">👨‍🏫</div>
+              <h3>Instruktur</h3>
+              <ul>
+                <li>Edwar Luden, S.Pd., M.Pd.</li>
+                <li>Artur Sebastian Kamajaya, S.Pd.</li>
+              </ul>
+              <p class="mt-sm text-muted text-small">Pengembang: Artur Sebastian Kamajaya, S.Pd.</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/sheets.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/availability.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/print.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
